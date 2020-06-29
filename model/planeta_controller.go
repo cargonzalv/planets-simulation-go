@@ -150,6 +150,7 @@ func Simulacion(dias int, job bool) RegistroClima {
 				}
 				// Reset de los valores
 				values = "VALUES "
+			}
 		}
 
 		avanzarDias(1)
