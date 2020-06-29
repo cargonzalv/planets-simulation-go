@@ -90,9 +90,13 @@ paths:
           schema:
             $ref: '#/definitions/model.HTTPError'
       summary: Devuelve la información del clima para el día especificado
-  /jobs/simulacion:
+  /simulacion:
     get:
       parameters:
+      - description: Años a simular
+        in: query
+        name: anios
+        type: integer
       - description: Planeta en el que se basan los años
         in: query
         name: planeta
@@ -116,5 +120,5 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/model.HTTPError'
-      summary: Devuelve la información de una simulación de 10 años
+      summary: Devuelve la información de una simulación de 10 años (por defecto, se puede cambiar)
 swagger: "2.0"
