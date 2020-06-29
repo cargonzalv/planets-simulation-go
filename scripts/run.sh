@@ -1,0 +1,1 @@
+go run main.go planeta.go utils.go triangulo.go
