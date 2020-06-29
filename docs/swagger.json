@@ -8,7 +8,7 @@
         "license": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "https://ml-solar-system-281804.rj.r.appspot.com",
     "basePath": "/api",
     "paths": {
         "/api/": {

@@ -12,7 +12,7 @@ import (
 // @description This is a weather calculator for planets.
 // @termsOfService http://swagger.io/terms/
 
-// @host localhost:8080
+// @host https://ml-solar-system-281804.rj.r.appspot.com
 // @BasePath /api
 
 func main() {

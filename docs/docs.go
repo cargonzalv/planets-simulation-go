@@ -203,7 +203,7 @@ type swaggerInfo struct {
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
 	Version:     "1.0",
-	Host:        "localhost:8080",
+	Host:        "https://ml-solar-system-281804.rj.r.appspot.com",
 	BasePath:    "/api",
 	Schemes:     []string{},
 	Title:       "Swagger Example API",
