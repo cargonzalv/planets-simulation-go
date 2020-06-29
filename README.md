@@ -1,11 +1,8 @@
-# prueba-meli
+# Simulación planetas
 
-Prueba técnica de Mercado Libre, desarrollada en Golang.
+Simulación de movimiento de planetas desarrollado en Golang.
 
-## Enunciado
-
-[enunciado](docs/ExamenMLSistemaSolar.pdf)
-
+## Simulación gráfica
 ![Simulación de prueba](docs/sim.gif)
 
 ## Documentación API
