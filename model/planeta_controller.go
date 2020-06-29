@@ -51,6 +51,17 @@ func BuscarPlanetaPorNombre(nombre string) *Planeta {
 	return nil
 }
 
+// BuscarClimaDia Busca el estado del clima para el día ingresado por parámetro en la base de datos
+// Si no encuentra el día, lo calcula
+func BuscarClimaDia(dia int) RespuestaClima {
+	respuesta := RespuestaClima{}
+	err := db.Database.Model(&RespuestaClima{}).Table("registroclima").Select("clima, dia").Where("dia = ?", dia).Find(&respuesta).Error
+	if err != nil {
+		respuesta = CalcularClimaDia(dia)
+	}
+	return respuesta
+}
+
 // CalcularClimaDia Calcula el estado del clima para el día ingresado por parámetro
 func CalcularClimaDia(dia int) RespuestaClima {
 	triangulo := avanzarDias(dia)

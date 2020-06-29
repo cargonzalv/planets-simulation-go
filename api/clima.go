@@ -26,7 +26,7 @@ func ClimaHandler(c echo.Context) error {
 	if error != nil {
 		return echo.NewHTTPError(400, "Debe especificar el día como un número")
 	}
-	clima := model.CalcularClimaDia(dia)
+	clima := model.BuscarClimaDia(dia)
 	fmt.Printf("%+v\n", clima)
 	return c.JSON(http.StatusOK, clima)
 }
