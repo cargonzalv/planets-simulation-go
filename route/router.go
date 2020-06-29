@@ -37,11 +37,11 @@ func New() *echo.Echo {
 	// Routes
 	v1 := e.Group("/api")
 	{
-		v1.GET("/", api.IndexHandler)
+		v1.GET("", api.IndexHandler)
 		v1.GET("/clima", api.ClimaHandler)
 		v1.GET("/simulacion", api.SimulacionHandler)
 	}
-	e.GET("/docs/*", echoSwagger.WrapHandler)
+	e.GET("/", echoSwagger.WrapHandler)
 
 	return e
 }
