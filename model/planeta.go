@@ -1,5 +1,7 @@
 package model
 
+import "math"
+
 /*
 Planeta Estructura de un planeta
 	nombre: Nombre del planeta
@@ -11,4 +13,9 @@ type Planeta struct {
 	nombre    string
 	velocidad float64
 	posicion  CoordsPolares
+}
+
+// CalcularDiasPorAnio Calcula los días que contiene un año para el planeta receiver
+func (p Planeta) CalcularDiasPorAnio() int {
+	return int(math.Abs(360 / p.velocidad))
 }

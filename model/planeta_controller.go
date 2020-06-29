@@ -10,7 +10,7 @@ import (
 
 // Planetas Listado de planetas del sistema solar
 var Planetas []Planeta
-var cacheClima map[int]RespuestaClimaGeneral
+var cacheClima map[int]RespuestaClimaGeneral = make(map[int]RespuestaClimaGeneral)
 
 // CrearPlaneta Crea un nuevo planeta con su nombre, velocidad y radio ingresados por parámetro
 func CrearPlaneta(nombre string, velocidad float64, radio float64) Planeta {
@@ -21,11 +21,6 @@ func CrearPlaneta(nombre string, velocidad float64, radio float64) Planeta {
 	}
 	agregarPlaneta(p)
 	return p
-}
-
-// CalcularDiasPorAnio Calcula los días que contiene un año para el planeta receiver
-func (p Planeta) CalcularDiasPorAnio() int {
-	return int(math.Abs(360 / p.velocidad))
 }
 
 // CrearPlanetas Crea los planetas del sistema solar descrito en el enunciado
@@ -105,9 +100,6 @@ func Simulacion(dias int) RespuestaClimaGeneral {
 			if estadoPrevio != estado {
 				countOptimo++
 			}
-		}
-		if i%100 == 0 {
-			fmt.Println("dia:", i, estado, countSequia, countLluvias, countOptimo, maxPerimetro, diaPicoLluvias)
 		}
 		cacheClima[i] = RespuestaClimaGeneral{
 			Sequias:        countSequia,
