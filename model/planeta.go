@@ -23,6 +23,7 @@ type CoordsPolares struct {
 	angulo float64
 }
 
+// CrearPlaneta Crea un nuevo planeta con su nombre, velocidad y radio ingresados por parámetro
 func CrearPlaneta(nombre string, velocidad float64, radio float64) Planeta {
 	p := Planeta{
 		nombre:    nombre,
@@ -33,6 +34,7 @@ func CrearPlaneta(nombre string, velocidad float64, radio float64) Planeta {
 	return p
 }
 
+// CalcularDiasPorAnio Calcula los días que contiene un año para el planeta receiver
 func (p Planeta) CalcularDiasPorAnio() int {
 	return int(math.Abs(360 / p.velocidad))
 }
