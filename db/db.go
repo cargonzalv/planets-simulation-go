@@ -28,7 +28,7 @@ func Init() {
 		fmt.Println("bd connection err: ", err)
 	}
 	db.DB().SetMaxIdleConns(3)
-	db.LogMode(true)
+	db.LogMode(false)
 
 	Database = db
 
