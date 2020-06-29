@@ -1,6 +1,6 @@
 package model
 
-// RespuestaClimaGeneral Estructura de respuesta de consulta de clima general (para los ultimos 10 años)
+// RespuestaClimaGeneral Estructura de respuesta de consulta de clima general (para los ultimos 10 años por defecto)
 type RespuestaClimaGeneral struct {
 	Sequias        int `json:"sequias" example:"53"`
 	Lluvias        int `json:"lluvias" example:"42"`

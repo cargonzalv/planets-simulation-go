@@ -32,7 +32,7 @@ func SimulacionHandler(c echo.Context) error {
 		}
 	}
 	dias := anios * planeta.CalcularDiasPorAnio()
-	respuesta := model.Simulacion(dias, planeta)
+	respuesta := model.Simulacion(dias)
 	fmt.Printf("%+v\n", respuesta)
 	return c.JSON(http.StatusOK, respuesta)
 }

@@ -8,7 +8,9 @@ import (
 
 // Planetas Listado de planetas del sistema solar
 var Planetas []Planeta
+var cacheClima map[int]RespuestaClimaGeneral
 
+// CrearPlanetas Crea los planetas del sistema solar descrito en el enunciado
 func CrearPlanetas() {
 	CrearPlaneta("Ferengi", -1, 500)
 	CrearPlaneta("Betasoide", -3, 2000)
@@ -19,6 +21,7 @@ func agregarPlaneta(p Planeta) {
 	Planetas = append(Planetas, p)
 }
 
+// BuscarPlanetaPorNombre Busca el struct Planeta por su nombre
 func BuscarPlanetaPorNombre(nombre string) *Planeta {
 	for _, value := range Planetas {
 		if strings.EqualFold(value.nombre, nombre) {
@@ -28,6 +31,7 @@ func BuscarPlanetaPorNombre(nombre string) *Planeta {
 	return nil
 }
 
+// CalcularClimaDia Calcula el estado del clima para el día ingresado por parámetro
 func CalcularClimaDia(dia int) RespuestaClima {
 	triangulo := avanzarDias(dia)
 	fmt.Printf("%+v", triangulo)
@@ -51,8 +55,12 @@ func darEstado(t Triangulo) string {
 	}
 }
 
-func Simulacion(dias int, p Planeta) RespuestaClimaGeneral {
-	fmt.Println("Calculando simulación de ", dias, "días) para el Planeta", p.nombre)
+// Simulacion hace el proceso de avanzar en el tiempo n días y calcular el conteo de clima
+func Simulacion(dias int) RespuestaClimaGeneral {
+	fmt.Println("Calculando simulación de ", dias, "días")
+	if cacheClima[dias] != (RespuestaClimaGeneral{}) {
+		return cacheClima[dias]
+	}
 	countSequia := 0
 	countLluvias := 0
 	countOptimo := 0
@@ -82,6 +90,12 @@ func Simulacion(dias int, p Planeta) RespuestaClimaGeneral {
 		}
 		if i%100 == 0 {
 			fmt.Println("dia:", i, estado, countSequia, countLluvias, countOptimo, maxPerimetro, diaPicoLluvias)
+		}
+		cacheClima[i] = RespuestaClimaGeneral{
+			Sequias:        countSequia,
+			Lluvias:        countLluvias,
+			DiaPicoLluvias: diaPicoLluvias,
+			Optimos:        countOptimo,
 		}
 		avanzarDias(1)
 		estadoPrevio = estado
