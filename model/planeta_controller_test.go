@@ -126,7 +126,7 @@ func TestSimulacion(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want RespuestaClimaGeneral
+		want RegistroClima
 	}{
 		// TODO: Add test cases.
 	}

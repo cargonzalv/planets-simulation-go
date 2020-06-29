@@ -1,19 +1,27 @@
 package db
 
 import (
-	"context"
 	"fmt"
 	"os"
 
-	"github.com/jackc/pgx"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/postgres" // dialecto postgres
 )
 
-func connect() {
-	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+// Database db instance
+var Database *gorm.DB = New()
 
+// New creates a new connection to the database
+func New() *gorm.DB {
+	password := os.Getenv("password")
+	db, err := gorm.Open("postgres", "host="+os.Getenv("DATABASE_URL")+
+		" user=postgres dbname=galaxia password="+password)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
-		os.Exit(1)
+		fmt.Println("bd connection err: ", err)
 	}
-	defer conn.Close(context.Background())
+	db.DB().SetMaxIdleConns(3)
+	db.LogMode(true)
+	// me aseguro de cerrar la conexión si el servidor se cierra
+	defer db.Close()
+	return db
 }

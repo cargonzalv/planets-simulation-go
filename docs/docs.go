@@ -115,7 +115,7 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.RespuestaClimaGeneral"
+                            "$ref": "#/definitions/model.RegistroClima"
                         }
                     },
                     "400": {
@@ -167,7 +167,7 @@ var doc = `{
                 }
             }
         },
-        "model.RespuestaClimaGeneral": {
+        "model.RegistroClima": {
             "type": "object",
             "properties": {
                 "diaPicoLluvias": {

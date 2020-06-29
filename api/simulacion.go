@@ -14,7 +14,7 @@ import (
 // @Produce json
 // @Param anios query int false "Años a simular"
 // @Param planeta query string false "Planeta en el que se basan los años"
-// @Success 200 {object} model.RespuestaClimaGeneral
+// @Success 200 {object} model.RegistroClima
 // @Failure 400 {object} model.HTTPError
 // @Failure 404 {object} model.HTTPError
 // @Failure 500 {object} model.HTTPError
@@ -32,7 +32,25 @@ func SimulacionHandler(c echo.Context) error {
 		}
 	}
 	dias := anios * planeta.CalcularDiasPorAnio()
-	respuesta := model.Simulacion(dias)
+	respuesta := model.Simulacion(dias, false)
+	fmt.Printf("%+v\n", respuesta)
+	return c.JSON(http.StatusOK, respuesta)
+}
+
+// SimulacionPOSTHandler Hace la simulación y actualiza la bd con la información calculada
+// @Summary Hace la simulación y actualiza la bd con la información calculada
+// @Produce json
+// @Success 200 {object} model.RegistroClima
+// @Failure 400 {object} model.HTTPError
+// @Failure 404 {object} model.HTTPError
+// @Failure 500 {object} model.HTTPError
+// @Router /simulacion [post]
+func SimulacionPOSTHandler(c echo.Context) error {
+
+	anios := 10                  // Por defecto la simulación es de 10 años
+	planeta := model.Planetas[0] // Por defecto la simulación es de los años de Ferengi (Planeta mas lento)
+	dias := anios * planeta.CalcularDiasPorAnio()
+	respuesta := model.Simulacion(dias, true)
 	fmt.Printf("%+v\n", respuesta)
 	return c.JSON(http.StatusOK, respuesta)
 }

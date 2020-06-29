@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"math"
+	"prueba-meli/db"
 	"strings"
 )
 
@@ -10,7 +11,6 @@ import (
 
 // Planetas Listado de planetas del sistema solar
 var Planetas []Planeta
-var cacheClima map[int]RespuestaClimaGeneral = make(map[int]RespuestaClimaGeneral)
 
 // CrearPlaneta Crea un nuevo planeta con su nombre, velocidad y radio ingresados por parámetro
 func CrearPlaneta(nombre string, velocidad float64, radio float64) Planeta {
@@ -25,9 +25,16 @@ func CrearPlaneta(nombre string, velocidad float64, radio float64) Planeta {
 
 // CrearPlanetas Crea los planetas del sistema solar descrito en el enunciado
 func CrearPlanetas() {
-	CrearPlaneta("Ferengi", -1, 500)
-	CrearPlaneta("Betasoide", -3, 2000)
-	CrearPlaneta("Vulcano", 5, 1000)
+	var err error
+	planetas := []PlanetaDB{}
+	err = db.Database.Table("planeta").Model(&PlanetaDB{}).Limit(100).Find(&planetas).Error
+	fmt.Println(planetas, err)
+	if err != nil || len(planetas) == 0 {
+		panic("Error: No fue posible encontrar los planetas del sistema solar")
+	}
+	CrearPlaneta(planetas[0].Nombre, planetas[0].Velocidad, planetas[0].Radio)
+	CrearPlaneta(planetas[1].Nombre, planetas[1].Velocidad, planetas[1].Radio)
+	CrearPlaneta(planetas[2].Nombre, planetas[2].Velocidad, planetas[2].Radio)
 }
 
 func agregarPlaneta(p Planeta) {
@@ -69,11 +76,18 @@ func darEstado(t Triangulo) string {
 }
 
 // Simulacion hace el proceso de avanzar en el tiempo n días y calcular el conteo de clima
-func Simulacion(dias int) RespuestaClimaGeneral {
-	fmt.Println("Calculando simulación de ", dias, "días")
-	if cacheClima[dias] != (RespuestaClimaGeneral{}) {
-		return cacheClima[dias]
+func Simulacion(dias int, job bool) RegistroClima {
+	var ultimoDia int = 0
+	errorSelect := db.Database.Raw("SELECT dia FROM registroclima ORDER BY dia desc LIMIT 1", &ultimoDia).Error
+	if errorSelect != nil {
+		fmt.Println("Error en select de registros clima", errorSelect)
 	}
+	// Si ya hay al menos un día procesado, estamos en el job y el ultimoDia + 1 es mayor a los días
+	// a calcular, aumentamos los días más uno
+	if ultimoDia > 0 && job {
+		dias = int(math.Max(float64(dias), float64(ultimoDia)+1))
+	}
+	fmt.Println("Calculando simulación de ", dias, "días")
 	countSequia := 0
 	countLluvias := 0
 	countOptimo := 0
@@ -101,16 +115,27 @@ func Simulacion(dias int) RespuestaClimaGeneral {
 				countOptimo++
 			}
 		}
-		cacheClima[i] = RespuestaClimaGeneral{
+		registro := RegistroClima{
 			Sequias:        countSequia,
 			Lluvias:        countLluvias,
 			DiaPicoLluvias: diaPicoLluvias,
 			Optimos:        countOptimo,
+			Clima:          estadoPrevio,
+			Dia:            i,
 		}
+
+		if i > ultimoDia && job {
+			// Si el dia actual es mayor al ultimo dia en la db y estamos en el job, inserto este día
+			errorInserting := db.Database.Table("registroclima").Create(registro).Error
+			if errorInserting != nil {
+				fmt.Printf("Error en: %+v", registro)
+			}
+		}
+
 		avanzarDias(1)
 		estadoPrevio = estado
 	}
-	return RespuestaClimaGeneral{
+	return RegistroClima{
 		Sequias:        countSequia,
 		Lluvias:        countLluvias,
 		DiaPicoLluvias: diaPicoLluvias,

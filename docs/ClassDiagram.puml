@@ -23,7 +23,7 @@ namespace model {
         + Clima string
 
     }
-    class RespuestaClimaGeneral << (S,Aquamarine) >> {
+    class RegistroClima << (S,Aquamarine) >> {
         + Sequias int
         + Lluvias int
         + DiaPicoLluvias int

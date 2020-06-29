@@ -23,4 +23,7 @@
 /vendor/
 /Godeps/
 
+## ignore run-test script bc of env variables
+
+
 # End of https://www.toptal.com/developers/gitignore/api/go

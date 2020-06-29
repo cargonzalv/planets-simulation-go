@@ -18,7 +18,7 @@ definitions:
         example: 45
         type: integer
     type: object
-  model.RespuestaClimaGeneral:
+  model.RegistroClima:
     properties:
       diaPicoLluvias:
         example: 425
@@ -101,7 +101,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/model.RespuestaClimaGeneral'
+            $ref: '#/definitions/model.RegistroClima'
         "400":
           description: Bad Request
           schema:

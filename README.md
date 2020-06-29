@@ -25,9 +25,13 @@ go get
 
 ## Uso para desarrollo
 
+Insertar variables de entorno de DATABASE_URL y password en /scripts/run.sh
+
 ```bash
-./scripts/run-test.sh
+export DATABAASE_URL=xxx.xxx.xxx.xxx (reemplazar por credenciales de bd propia)
+export password=XXXXXX (reemplazar por credenciales de bd propia))
 ```
+correr archivo en ./scripts/run.sh
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
