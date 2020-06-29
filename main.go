@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"os"
-	"prueba-meli/controller"
+	"prueba-meli/model"
 	"prueba-meli/route"
 )
 
@@ -18,7 +18,7 @@ import (
 func main() {
 
 	// Creamos los planetas del enunciado
-	controller.CrearPlanetas()
+	model.CrearPlanetas()
 
 	// Configuración del puerto a escuchar
 	port := os.Getenv("PORT")
