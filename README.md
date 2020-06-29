@@ -15,9 +15,9 @@ Simulación de movimiento de planetas desarrollado en Golang.
 
 ### Base de datos
 
-![Tabla planetas](docs/planetas.PNG)
+![Tabla planetas](docs/planetas.PNG?v=2)
 
-![Tabla registro clima](docs/registroClima.PNG)
+![Tabla registro clima](docs/registroClima.PNG?v=2)
 
 ## Cron Job corriendo cada día calculando clima de los próximos 10 años
 ![Evidencia del cron job corriendo en App Engine](docs/cronJob.PNG)
