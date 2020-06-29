@@ -15,3 +15,8 @@ type RespuestaClima struct {
 	Dia   int    `json:"dia" example:"45"`
 	Clima string `json:"clima" example:"soleado"`
 }
+
+// RespuestaUltimoDia Estructura de respuesta al último día agregado a la db
+type RespuestaUltimoDia struct {
+	Dia int `json:"dia" example: "47"`
+}

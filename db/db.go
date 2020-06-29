@@ -22,6 +22,5 @@ func New() *gorm.DB {
 	db.DB().SetMaxIdleConns(3)
 	db.LogMode(true)
 	// me aseguro de cerrar la conexión si el servidor se cierra
-	defer db.Close()
 	return db
 }

@@ -77,15 +77,25 @@ func darEstado(t Triangulo) string {
 
 // Simulacion hace el proceso de avanzar en el tiempo n días y calcular el conteo de clima
 func Simulacion(dias int, job bool) RegistroClima {
-	var ultimoDia int = 0
-	errorSelect := db.Database.Raw("SELECT dia FROM registroclima ORDER BY dia desc LIMIT 1", &ultimoDia).Error
+	ultimoDia := RespuestaUltimoDia{}
+	insert := "INSERT INTO registroclima (dia, sequias, lluvias, dia_pico_lluvias, optimos, clima)"
+	values := "VALUES "
+	onConflict := `ON CONFLICT (dia) DO UPDATE
+		SET sequias = excluded.sequias,
+			lluvias = excluded.lluvias,
+			dia_pico_lluvias = excluded.dia_pico_lluvias,
+			optimos = excluded.optimos,
+			clima = excluded.clima;
+	`
+	errorSelect := db.Database.Model(&RespuestaUltimoDia{}).Table("registroclima").Limit(1).Select("dia").Order("dia desc").Find(&ultimoDia).Error
 	if errorSelect != nil {
 		fmt.Println("Error en select de registros clima", errorSelect)
 	}
+	fmt.Printf("%+v", ultimoDia)
 	// Si ya hay al menos un día procesado, estamos en el job y el ultimoDia + 1 es mayor a los días
 	// a calcular, aumentamos los días más uno
-	if ultimoDia > 0 && job {
-		dias = int(math.Max(float64(dias), float64(ultimoDia)+1))
+	if ultimoDia.Dia > 0 && job {
+		dias = int(math.Max(float64(dias), float64(ultimoDia.Dia)+1))
 	}
 	fmt.Println("Calculando simulación de ", dias, "días")
 	countSequia := 0
@@ -124,12 +134,22 @@ func Simulacion(dias int, job bool) RegistroClima {
 			Dia:            i,
 		}
 
-		if i > ultimoDia && job {
-			// Si el dia actual es mayor al ultimo dia en la db y estamos en el job, inserto este día
-			errorInserting := db.Database.Table("registroclima").Create(registro).Error
-			if errorInserting != nil {
-				fmt.Printf("Error en: %+v", registro)
+		if job {
+			if values == "VALUES " {
+				values += fmt.Sprintf(`(%v, %v, %v, %v, %v, '%s')`, i, countSequia, countLluvias, diaPicoLluvias, countOptimo, estadoPrevio)
+			} else {
+				values += fmt.Sprintf(`, (%v, %v, %v, %v, %v, '%s')`, i, countSequia, countLluvias, diaPicoLluvias, countOptimo, estadoPrevio)
 			}
+			if i%1000 == 0 || i == dias {
+				// Ejecutamos el insert on dup key update cada 1000 elementos y al final
+				errorInserting := db.Database.Table("registroclima").Raw(insert + values + onConflict).Error
+				if errorInserting != nil {
+					fmt.Printf("Error en: %+v", registro)
+				} else {
+					fmt.Println("Insercion correcta", i)
+				}
+				// Reset de los valores
+				values = "VALUES "
 		}
 
 		avanzarDias(1)
@@ -140,6 +160,8 @@ func Simulacion(dias int, job bool) RegistroClima {
 		Lluvias:        countLluvias,
 		DiaPicoLluvias: diaPicoLluvias,
 		Optimos:        countOptimo,
+		Dia:            dias,
+		Clima:          estadoPrevio,
 	}
 }
 
