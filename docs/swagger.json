@@ -1,8 +1,177 @@
 {
     "swagger": "2.0",
     "info": {
+        "description": "This is a weather calculator for planets.",
+        "title": "Swagger Example API",
+        "termsOfService": "http://swagger.io/terms/",
         "contact": {},
-        "license": {}
+        "license": {},
+        "version": "1.0"
     },
-    "paths": {}
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "paths": {
+        "/api/": {
+            "get": {
+                "produces": [
+                    "text/plain"
+                ],
+                "summary": "Devuelve un saludo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.RespuestaClima"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clima": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Devuelve la información del clima para el día especificado",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Dia",
+                        "name": "dia",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.RespuestaClima"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/simulacion": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Devuelve la información de una simulación de 10 años (por defecto, se puede cambiar)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Años a simular",
+                        "name": "anios",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Planeta en el que se basan los años",
+                        "name": "planeta",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.RespuestaClimaGeneral"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.HTTPError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "message": {
+                    "type": "string",
+                    "example": "status bad request"
+                }
+            }
+        },
+        "model.RespuestaClima": {
+            "type": "object",
+            "properties": {
+                "clima": {
+                    "type": "string",
+                    "example": "soleado"
+                },
+                "dia": {
+                    "type": "integer",
+                    "example": 45
+                }
+            }
+        },
+        "model.RespuestaClimaGeneral": {
+            "type": "object",
+            "properties": {
+                "diaPicoLluvias": {
+                    "type": "integer",
+                    "example": 425
+                },
+                "lluvias": {
+                    "type": "integer",
+                    "example": 42
+                },
+                "optimos": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "sequias": {
+                    "type": "integer",
+                    "example": 53
+                }
+            }
+        }
+    }
 }

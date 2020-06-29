@@ -6,10 +6,19 @@ import (
 	"prueba-meli/model"
 	"strconv"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 // SimulacionHandler Responde a nuestro request con la información de la simulación
+// @Summary Devuelve la información de una simulación de 10 años (por defecto, se puede cambiar)
+// @Produce json
+// @Param anios query int false "Años a simular"
+// @Param planeta query string false "Planeta en el que se basan los años"
+// @Success 200 {object} model.RespuestaClimaGeneral
+// @Failure 400 {object} model.HTTPError
+// @Failure 404 {object} model.HTTPError
+// @Failure 500 {object} model.HTTPError
+// @Router /api/simulacion [get]
 func SimulacionHandler(c echo.Context) error {
 
 	anios := 10                  // Por defecto la simulación es de 10 años

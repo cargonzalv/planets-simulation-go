@@ -17,20 +17,6 @@ type Planeta struct {
 	posicion  CoordsPolares
 }
 
-// RespuestaClimaGeneral Estructura de respuesta de consulta de clima general (para los ultimos 10 años)
-type RespuestaClimaGeneral struct {
-	Sequias        int `json:"sequias"`
-	Lluvias        int `json:"lluvias"`
-	DiaPicoLluvias int `json:"diaPicoLluvias"`
-	Optimos        int `json:"optimos"`
-}
-
-// RespuestaClima Estructura de respuesta de consulta del clima del universo en un día particular
-type RespuestaClima struct {
-	Dia   int    `json:"dia"`
-	Clima string `json:"clima"`
-}
-
 // CoordsPolares Estructura de las coordenadas polares de un planeta
 type CoordsPolares struct {
 	radio  float64

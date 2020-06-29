@@ -29,21 +29,13 @@ func BuscarPlanetaPorNombre(nombre string) *Planeta {
 }
 
 func CalcularClimaDia(dia int) RespuestaClima {
-	triangulo := simularAlDia(dia)
+	triangulo := avanzarDias(dia)
 	fmt.Printf("%+v", triangulo)
 	clima := darEstado(triangulo)
 	return RespuestaClima{
 		Clima: clima,
 		Dia:   dia,
 	}
-}
-
-func simularAlDia(dia int) Triangulo {
-	diaConvertido := float64(dia)
-	for index, value := range Planetas {
-		Planetas[index].posicion.angulo = math.Mod(value.posicion.angulo+(value.velocidad*diaConvertido), 360)
-	}
-	return Triangulo{Planetas[0].posicion, Planetas[1].posicion, Planetas[2].posicion}
 }
 
 func darEstado(t Triangulo) string {
@@ -91,9 +83,7 @@ func Simulacion(dias int, p Planeta) RespuestaClimaGeneral {
 		if i%100 == 0 {
 			fmt.Println("dia:", i, estado, countSequia, countLluvias, countOptimo, maxPerimetro, diaPicoLluvias)
 		}
-		for index, value := range Planetas {
-			Planetas[index].posicion.angulo = math.Mod(value.posicion.angulo+value.velocidad, 360)
-		}
+		avanzarDias(1)
 		estadoPrevio = estado
 	}
 	return RespuestaClimaGeneral{
@@ -102,4 +92,11 @@ func Simulacion(dias int, p Planeta) RespuestaClimaGeneral {
 		DiaPicoLluvias: diaPicoLluvias,
 		Optimos:        countOptimo,
 	}
+}
+
+func avanzarDias(dia int) Triangulo {
+	for index, value := range Planetas {
+		Planetas[index].posicion.angulo = math.Mod(value.posicion.angulo+(value.velocidad*float64(dia)), 360)
+	}
+	return Triangulo{Planetas[0].posicion, Planetas[1].posicion, Planetas[2].posicion}
 }

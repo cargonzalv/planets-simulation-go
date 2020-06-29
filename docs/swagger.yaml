@@ -1,5 +1,118 @@
+basePath: /api
+definitions:
+  model.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+  model.RespuestaClima:
+    properties:
+      clima:
+        example: soleado
+        type: string
+      dia:
+        example: 45
+        type: integer
+    type: object
+  model.RespuestaClimaGeneral:
+    properties:
+      diaPicoLluvias:
+        example: 425
+        type: integer
+      lluvias:
+        example: 42
+        type: integer
+      optimos:
+        example: 2
+        type: integer
+      sequias:
+        example: 53
+        type: integer
+    type: object
+host: localhost:8080
 info:
   contact: {}
+  description: This is a weather calculator for planets.
   license: {}
-paths: {}
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /api/:
+    get:
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.RespuestaClima'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HTTPError'
+      summary: Devuelve un saludo
+  /api/clima:
+    get:
+      parameters:
+      - description: Dia
+        in: query
+        name: dia
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.RespuestaClima'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HTTPError'
+      summary: Devuelve la información del clima para el día especificado
+  /api/simulacion:
+    get:
+      parameters:
+      - description: Años a simular
+        in: query
+        name: anios
+        type: integer
+      - description: Planeta en el que se basan los años
+        in: query
+        name: planeta
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.RespuestaClimaGeneral'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.HTTPError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/model.HTTPError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.HTTPError'
+      summary: Devuelve la información de una simulación de 10 años (por defecto, se puede cambiar)
 swagger: "2.0"

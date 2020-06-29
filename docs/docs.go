@@ -18,13 +18,177 @@ var doc = `{
     "info": {
         "description": "{{.Description}}",
         "title": "{{.Title}}",
+        "termsOfService": "http://swagger.io/terms/",
         "contact": {},
         "license": {},
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/api/": {
+            "get": {
+                "produces": [
+                    "text/plain"
+                ],
+                "summary": "Devuelve un saludo",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.RespuestaClima"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/clima": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Devuelve la información del clima para el día especificado",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Dia",
+                        "name": "dia",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.RespuestaClima"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/simulacion": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Devuelve la información de una simulación de 10 años (por defecto, se puede cambiar)",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Años a simular",
+                        "name": "anios",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Planeta en el que se basan los años",
+                        "name": "planeta",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.RespuestaClimaGeneral"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/model.HTTPError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.HTTPError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "message": {
+                    "type": "string",
+                    "example": "status bad request"
+                }
+            }
+        },
+        "model.RespuestaClima": {
+            "type": "object",
+            "properties": {
+                "clima": {
+                    "type": "string",
+                    "example": "soleado"
+                },
+                "dia": {
+                    "type": "integer",
+                    "example": 45
+                }
+            }
+        },
+        "model.RespuestaClimaGeneral": {
+            "type": "object",
+            "properties": {
+                "diaPicoLluvias": {
+                    "type": "integer",
+                    "example": 425
+                },
+                "lluvias": {
+                    "type": "integer",
+                    "example": 42
+                },
+                "optimos": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "sequias": {
+                    "type": "integer",
+                    "example": 53
+                }
+            }
+        }
+    }
 }`
 
 type swaggerInfo struct {
@@ -38,12 +202,12 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
-	Host:        "",
-	BasePath:    "",
+	Version:     "1.0",
+	Host:        "localhost:8080",
+	BasePath:    "/api",
 	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Title:       "Swagger Example API",
+	Description: "This is a weather calculator for planets.",
 }
 
 type s struct{}

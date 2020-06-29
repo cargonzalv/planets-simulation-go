@@ -7,6 +7,14 @@ import (
 	"prueba-meli/route"
 )
 
+// @title Swagger Example API
+// @version 1.0
+// @description This is a weather calculator for planets.
+// @termsOfService http://swagger.io/terms/
+
+// @host localhost:8080
+// @BasePath /api
+
 func main() {
 
 	model.CrearPlanetas()

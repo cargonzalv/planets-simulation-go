@@ -6,10 +6,18 @@ import (
 	"prueba-meli/model"
 	"strconv"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
-// ClimaHandler Responde a nuestro request con la información del clima
+// ClimaHandler Responde a nuestro request con la información del clima para el día especificado
+// @Summary Devuelve la información del clima para el día especificado
+// @Produce json
+// @Param dia query int true "Dia"
+// @Success 200 {object} model.RespuestaClima
+// @Failure 400 {object} model.HTTPError
+// @Failure 404 {object} model.HTTPError
+// @Failure 500 {object} model.HTTPError
+// @Router /api/clima [get]
 func ClimaHandler(c echo.Context) error {
 	if c.QueryParam("dia") == "" {
 		return echo.NewHTTPError(400, "Debe especificar el día a buscar")
