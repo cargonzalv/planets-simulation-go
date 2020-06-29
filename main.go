@@ -1,32 +1,26 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
 	"math"
-	"net/http"
 	"os"
+	"prueba-meli/route"
 )
 
 // estados
 const (
-	Sequia = iota
-	Lluvia = iota
-	Optimo = iota
-	Normal = iota
+	Sequia = "sequia"
+	Lluvia = "lluvia"
+	Optimo = "optimo"
+	Normal = "normal"
 )
-
-// Planetas Listado de planetas del sistema solar
-var Planetas []Planeta
 
 func main() {
 
-	crearPlaneta("Ferengi", 1, 500)
-	crearPlaneta("Betasoide", 3, 2000)
-	crearPlaneta("Vulcano", -5, 1000)
-
-	http.HandleFunc("/", indexHandler)
+	crearPlaneta("Ferengi", -1, 500)
+	crearPlaneta("Betasoide", -3, 2000)
+	crearPlaneta("Vulcano", 5, 1000)
 
 	// [START setting_port]
 	port := os.Getenv("PORT")
@@ -35,44 +29,47 @@ func main() {
 		log.Printf("Defaulting to port %s", port)
 	}
 
-	log.Printf("Listening on port %s", port)
-	if err := http.ListenAndServe(":"+port, nil); err != nil {
-		log.Fatal(err)
-	}
-
+	router := route.Init()
+	router.Run(fasthttp.New(":8888"))
 }
 
-// indexHandler responds to requests with our greeting.
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
+func simularAlDia(dia int) Triangulo {
+	diaConvertido := float64(dia)
+	for index, value := range Planetas {
+		Planetas[index].posicion.angulo = math.Mod(value.posicion.angulo+(value.velocidad*diaConvertido), 360)
 	}
-	countSequia, countLluvias, countOptimo, diaPicoLluvias := simulacion(10, Planetas[2])
-	resp := Respuesta{
-		Sequias:        countSequia,
-		Lluvias:        countLluvias,
-		Optimos:        countOptimo,
-		DiaPicoLluvias: diaPicoLluvias,
-	}
-	fmt.Printf("%+v\n", resp)
-	respJSON, err := json.Marshal(resp)
-	if err != nil {
-		panic(err)
-	}
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(respJSON)
+	return Triangulo{Planetas[0].posicion, Planetas[1].posicion, Planetas[2].posicion}
 }
 
-func simulacion(anios int, p Planeta) (int, int, int, int) {
-	dias := anios * p.calcularDiasPorAnio()
-	fmt.Println("Calculando simulación de", anios, "años (", dias, "días) para el Planeta", p.nombre)
+func darEstado(t Triangulo) string {
+	if t.sonColineales() {
+		if t.sonColinealesCentro() {
+			return Sequia
+		}
+		return Optimo
+	} else if t.trianguloContieneOrigen() {
+		return Lluvia
+	} else {
+		return Normal
+	}
+}
+
+func calcularClimaDia(dia int) RespuestaClima {
+	triangulo := simularAlDia(dia)
+	clima := darEstado(triangulo)
+	return RespuestaClima{
+		Clima: clima,
+		Dia:   dia,
+	}
+}
+
+func simulacion(dias int, p Planeta) RespuestaClimaGeneral {
+	fmt.Println("Calculando simulación de ", dias, "días) para el Planeta", p.nombre)
 	countSequia := 0
 	countLluvias := 0
 	countOptimo := 0
 	diaPicoLluvias := 0
-	estadoPrevio := 0
+	estadoPrevio := ""
 	var maxPerimetro float64 = -1
 	for i := 1; i <= dias; i++ {
 		triangulo := Triangulo{Planetas[0].posicion, Planetas[1].posicion, Planetas[2].posicion}
@@ -85,9 +82,7 @@ func simulacion(anios int, p Planeta) (int, int, int, int) {
 			if estadoPrevio != estado {
 				countLluvias++
 			}
-			countLluvias++
 			perimetro := darPerimetro(Planetas[0].posicion, Planetas[1].posicion, Planetas[2].posicion)
-			fmt.Println(perimetro)
 			maxPerimetro = math.Max(maxPerimetro, perimetro)
 			if maxPerimetro == perimetro {
 				diaPicoLluvias = i
@@ -97,24 +92,18 @@ func simulacion(anios int, p Planeta) (int, int, int, int) {
 				countOptimo++
 			}
 		}
-		fmt.Println("dia:", i, estado, countSequia, countLluvias, countOptimo, maxPerimetro, diaPicoLluvias)
+		if i%100 == 0 {
+			fmt.Println("dia:", i, estado, countSequia, countLluvias, countOptimo, maxPerimetro, diaPicoLluvias)
+		}
 		for index, value := range Planetas {
 			Planetas[index].posicion.angulo = math.Mod(value.posicion.angulo+value.velocidad, 360)
 		}
 		estadoPrevio = estado
 	}
-	return countSequia, countLluvias, countOptimo, diaPicoLluvias
-}
-
-func darEstado(t Triangulo) int {
-	if t.sonColineales() {
-		if t.sonColinealesCentro() {
-			return Sequia
-		}
-		return Optimo
-	} else if t.trianguloContieneOrigen() {
-		return Lluvia
-	} else {
-		return Normal
+	return RespuestaClimaGeneral{
+		Sequias:        countSequia,
+		Lluvias:        countLluvias,
+		DiaPicoLluvias: diaPicoLluvias,
+		Optimos:        countOptimo,
 	}
 }
