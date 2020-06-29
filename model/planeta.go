@@ -23,13 +23,14 @@ type CoordsPolares struct {
 	angulo float64
 }
 
-func CrearPlaneta(nombre string, velocidad float64, radio float64) {
+func CrearPlaneta(nombre string, velocidad float64, radio float64) Planeta {
 	p := Planeta{
 		nombre:    nombre,
 		velocidad: velocidad,
 		posicion:  CoordsPolares{radio, 0},
 	}
 	agregarPlaneta(p)
+	return p
 }
 
 func (p Planeta) CalcularDiasPorAnio() int {
