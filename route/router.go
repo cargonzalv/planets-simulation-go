@@ -22,7 +22,7 @@ func New() *echo.Echo {
 	e.Pre(middleware.HTTPSNonWWWRedirectWithConfig(middleware.RedirectConfig{
 		Skipper: func(c echo.Context) bool {
 			fmt.Println(c.Request().Host)
-			if strings.Contains(c.Request().Host, "localhost") {
+			if strings.Contains(c.Request().Host, "localhost") || strings.Contains(c.Request().URL.Path, "/jobs/") {
 				return true
 			}
 			return false
@@ -50,6 +50,7 @@ func New() *echo.Echo {
 		v1.GET("", api.IndexHandler)
 		v1.GET("/clima", api.ClimaHandler)
 		v1.GET("/simulacion", api.SimulacionHandler)
+		v1.GET("/jobs/simulacion", api.SimulacionJobHandler)
 	}
 	e.GET("/docs/*", echoSwagger.WrapHandler)
 	e.File("/modelo", "docs/modelo.html")
