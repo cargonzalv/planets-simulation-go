@@ -9,7 +9,7 @@ import (
 // @Produce plain
 // @Success 200 {string} string "Hello, Universe!"
 // @Failure 500 {object} model.HTTPError
-// @Router /api/ [get]
+// @Router / [get]
 func IndexHandler(c echo.Context) error {
 	return c.String(200, "Hello, Universe!")
 }

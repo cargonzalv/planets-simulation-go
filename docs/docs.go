@@ -26,7 +26,7 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/": {
+        "/": {
             "get": {
                 "produces": [
                     "text/plain"
@@ -48,7 +48,7 @@ var doc = `{
                 }
             }
         },
-        "/api/clima": {
+        "/clima": {
             "get": {
                 "produces": [
                     "application/json"
@@ -91,7 +91,7 @@ var doc = `{
                 }
             }
         },
-        "/api/simulacion": {
+        "/simulacion": {
             "get": {
                 "produces": [
                     "application/json"

@@ -18,7 +18,7 @@ import (
 // @Failure 400 {object} model.HTTPError
 // @Failure 404 {object} model.HTTPError
 // @Failure 500 {object} model.HTTPError
-// @Router /api/simulacion [get]
+// @Router /simulacion [get]
 func SimulacionHandler(c echo.Context) error {
 
 	anios := 10                  // Por defecto la simulación es de 10 años

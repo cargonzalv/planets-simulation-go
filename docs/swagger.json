@@ -11,7 +11,7 @@
     "host": "https://ml-solar-system-281804.rj.r.appspot.com",
     "basePath": "/api",
     "paths": {
-        "/api/": {
+        "/": {
             "get": {
                 "produces": [
                     "text/plain"
@@ -33,7 +33,7 @@
                 }
             }
         },
-        "/api/clima": {
+        "/clima": {
             "get": {
                 "produces": [
                     "application/json"
@@ -76,7 +76,7 @@
                 }
             }
         },
-        "/api/simulacion": {
+        "/simulacion": {
             "get": {
                 "produces": [
                     "application/json"

@@ -42,7 +42,7 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
-  /api/:
+  /:
     get:
       produces:
       - text/plain
@@ -56,7 +56,7 @@ paths:
           schema:
             $ref: '#/definitions/model.HTTPError'
       summary: Devuelve un saludo
-  /api/clima:
+  /clima:
     get:
       parameters:
       - description: Dia
@@ -84,7 +84,7 @@ paths:
           schema:
             $ref: '#/definitions/model.HTTPError'
       summary: Devuelve la información del clima para el día especificado
-  /api/simulacion:
+  /simulacion:
     get:
       parameters:
       - description: Años a simular

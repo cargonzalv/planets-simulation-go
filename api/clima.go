@@ -17,7 +17,7 @@ import (
 // @Failure 400 {object} model.HTTPError
 // @Failure 404 {object} model.HTTPError
 // @Failure 500 {object} model.HTTPError
-// @Router /api/clima [get]
+// @Router /clima [get]
 func ClimaHandler(c echo.Context) error {
 	if c.QueryParam("dia") == "" {
 		return echo.NewHTTPError(400, "Debe especificar el día a buscar")
