@@ -14,6 +14,7 @@ Simulación de movimiento de planetas desarrollado en Golang.
 [https://ml-solar-system-281804.rj.r.appspot.com/modelo](https://ml-solar-system-281804.rj.r.appspot.com/modelo)
 
 ## Cron Job corriendo cada día calculando clima de los próximos 10 años
+![Evidencia del cron job corriendo en App Engine](docs/cronJob.PNG)
 
 ## Instalación
 
