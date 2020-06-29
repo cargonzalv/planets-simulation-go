@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"prueba-meli/db"
 	"prueba-meli/model"
 	"prueba-meli/route"
 )
@@ -16,6 +17,9 @@ import (
 // @BasePath /api
 
 func main() {
+
+	// Inicializamos conexion con base de datos
+	db.Init()
 
 	// Creamos los planetas del enunciado
 	model.CrearPlanetas()
