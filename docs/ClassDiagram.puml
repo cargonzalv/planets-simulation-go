@@ -1,0 +1,58 @@
+@startuml
+namespace model {
+    class CoordsPolares << (S,Aquamarine) >> {
+        - radio float64
+        - angulo float64
+
+    }
+    class HTTPError << (S,Aquamarine) >> {
+        + Code int
+        + Message string
+
+    }
+    class Planeta << (S,Aquamarine) >> {
+        - nombre string
+        - velocidad float64
+        - posicion CoordsPolares
+
+        + CalcularDiasPorAnio() int
+
+    }
+    class RespuestaClima << (S,Aquamarine) >> {
+        + Dia int
+        + Clima string
+
+    }
+    class RespuestaClimaGeneral << (S,Aquamarine) >> {
+        + Sequias int
+        + Lluvias int
+        + DiaPicoLluvias int
+        + Optimos int
+
+    }
+    class Triangulo << (S,Aquamarine) >> {
+        - punto1 CoordsPolares
+        - punto2 CoordsPolares
+        - punto3 CoordsPolares
+
+        - trianguloContieneOrigen() bool
+        - sonColinealesCentro() bool
+        - sonColineales() bool
+        - area() float64
+        - darPerimetro() float64
+
+    }
+}
+
+
+namespace route {
+    class Validator << (S,Aquamarine) >> {
+        - validator *validator.Validate
+
+        + Validate(i <font color=blue>interface</font>{}) error
+
+    }
+}
+
+
+@enduml

@@ -52,6 +52,7 @@ func New() *echo.Echo {
 		v1.GET("/simulacion", api.SimulacionHandler)
 	}
 	e.GET("/docs/*", echoSwagger.WrapHandler)
+	e.File("/modelo", "docs/modelo.html")
 	e.GET("/", rootHandler)
 	return e
 }
