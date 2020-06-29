@@ -15,7 +15,7 @@ Prueba técnica de Mercado Libre, desarrollada en Golang.
 go get
 ```
 
-## Usage
+## Uso para desarrollo
 
 ```bash
 ./scripts/run-test.sh
