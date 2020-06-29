@@ -25,5 +25,7 @@
 
 ## ignore run-test script bc of env variables
 
+*run-test.sh
+
 
 # End of https://www.toptal.com/developers/gitignore/api/go
