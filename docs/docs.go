@@ -34,9 +34,9 @@ var doc = `{
                 "summary": "Devuelve un saludo",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Hello, Universe!",
                         "schema": {
-                            "$ref": "#/definitions/model.RespuestaClima"
+                            "type": "string"
                         }
                     },
                     "500": {
