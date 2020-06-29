@@ -14,6 +14,8 @@ Prueba técnica de Mercado Libre, desarrollada en Golang.
 
 [https://ml-solar-system-281804.rj.r.appspot.com/modelo](https://ml-solar-system-281804.rj.r.appspot.com/modelo)
 
+## Cron Job corriendo cada día calculando clima de los próximos 10 años
+
 ## Instalación
 
 1) Instalar Go 1.14 [acá](https://golang.org/dl/).
