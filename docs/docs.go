@@ -91,19 +91,13 @@ var doc = `{
                 }
             }
         },
-        "/simulacion": {
+        "/jobs/simulacion": {
             "get": {
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Devuelve la información de una simulación de 10 años (por defecto, se puede cambiar)",
+                "summary": "Devuelve la información de una simulación de 10 años",
                 "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Años a simular",
-                        "name": "anios",
-                        "in": "query"
-                    },
                     {
                         "type": "string",
                         "description": "Planeta en el que se basan los años",
@@ -154,7 +148,7 @@ var doc = `{
                 }
             }
         },
-        "model.RespuestaClima": {
+        "model.RegistroClima": {
             "type": "object",
             "properties": {
                 "clima": {
@@ -163,13 +157,8 @@ var doc = `{
                 },
                 "dia": {
                     "type": "integer",
-                    "example": 45
-                }
-            }
-        },
-        "model.RegistroClima": {
-            "type": "object",
-            "properties": {
+                    "example": 532
+                },
                 "diaPicoLluvias": {
                     "type": "integer",
                     "example": 425
@@ -185,6 +174,19 @@ var doc = `{
                 "sequias": {
                     "type": "integer",
                     "example": 53
+                }
+            }
+        },
+        "model.RespuestaClima": {
+            "type": "object",
+            "properties": {
+                "clima": {
+                    "type": "string",
+                    "example": "soleado"
+                },
+                "dia": {
+                    "type": "integer",
+                    "example": 45
                 }
             }
         }

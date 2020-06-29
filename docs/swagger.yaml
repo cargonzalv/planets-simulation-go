@@ -9,17 +9,14 @@ definitions:
         example: status bad request
         type: string
     type: object
-  model.RespuestaClima:
+  model.RegistroClima:
     properties:
       clima:
         example: soleado
         type: string
       dia:
-        example: 45
+        example: 532
         type: integer
-    type: object
-  model.RegistroClima:
-    properties:
       diaPicoLluvias:
         example: 425
         type: integer
@@ -31,6 +28,15 @@ definitions:
         type: integer
       sequias:
         example: 53
+        type: integer
+    type: object
+  model.RespuestaClima:
+    properties:
+      clima:
+        example: soleado
+        type: string
+      dia:
+        example: 45
         type: integer
     type: object
 host: https://ml-solar-system-281804.rj.r.appspot.com
@@ -84,13 +90,9 @@ paths:
           schema:
             $ref: '#/definitions/model.HTTPError'
       summary: Devuelve la información del clima para el día especificado
-  /simulacion:
+  /jobs/simulacion:
     get:
       parameters:
-      - description: Años a simular
-        in: query
-        name: anios
-        type: integer
       - description: Planeta en el que se basan los años
         in: query
         name: planeta
@@ -114,5 +116,5 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/model.HTTPError'
-      summary: Devuelve la información de una simulación de 10 años (por defecto, se puede cambiar)
+      summary: Devuelve la información de una simulación de 10 años
 swagger: "2.0"
