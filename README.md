@@ -6,6 +6,8 @@ Prueba técnica de Mercado Libre, desarrollada en Golang.
 
 [enunciado](docs/ExamenMLSistemaSolar.pdf)
 
+![Simulación de prueba](docs/sim.gif)
+
 ## Documentación API
 
 [https://ml-solar-system-281804.rj.r.appspot.com](https://ml-solar-system-281804.rj.r.appspot.com/docs/index.html)
