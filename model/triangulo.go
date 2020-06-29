@@ -15,13 +15,13 @@ func (t Triangulo) trianguloContieneOrigen() bool {
 	A := t.area()
 
 	//  Calculamos el área del triángulo (OBC)
-	A1 := area(origen, t.punto2, t.punto3)
+	A1 := Area(origen, t.punto2, t.punto3)
 
 	//  Calculamos el área del triángulo (OAC)
-	A2 := area(origen, t.punto1, t.punto3)
+	A2 := Area(origen, t.punto1, t.punto3)
 
 	//  Calculamos el área del triángulo (OAB)
-	A3 := area(origen, t.punto1, t.punto2)
+	A3 := Area(origen, t.punto1, t.punto2)
 
 	//  Si la suma de los triángulos A1, A2 y A3 resulta en A,
 	//  concluimos que el triángulo generado contiene al origen
@@ -46,10 +46,10 @@ func (t Triangulo) sonColineales() bool {
 
 // Calcula el area usando los 3 puntos de un triángulo
 func (t Triangulo) area() float64 {
-	return area(t.punto1, t.punto2, t.punto3)
+	return Area(t.punto1, t.punto2, t.punto3)
 }
 
 // Calcula el perímetro de un triángulo
 func (t Triangulo) darPerimetro() float64 {
-	return darPerimetro(t.punto1, t.punto2, t.punto3)
+	return DarPerimetro(t.punto1, t.punto2, t.punto3)
 }

@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"os"
-	"prueba-meli/model"
+	"prueba-meli/controller"
 	"prueba-meli/route"
 )
 
@@ -17,15 +17,18 @@ import (
 
 func main() {
 
-	model.CrearPlanetas()
+	// Creamos los planetas del enunciado
+	controller.CrearPlanetas()
 
-	// [START setting_port]
+	// Configuración del puerto a escuchar
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 		log.Printf("Defaulting to port %s", port)
 	}
 
+	// Inicialización de router
 	router := route.New()
+	// Empezamos a escuchar en el puerto seleccionado
 	router.Start(":" + port)
 }
