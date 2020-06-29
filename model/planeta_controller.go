@@ -142,11 +142,9 @@ func Simulacion(dias int, job bool) RegistroClima {
 			}
 			if i%1000 == 0 || i == dias {
 				// Ejecutamos el insert on dup key update cada 1000 elementos y al final
-				errorInserting := db.Database.Table("registroclima").Raw(insert + values + onConflict).Error
+				errorInserting := db.Database.Table("registroclima").Exec(insert + values + onConflict).Error
 				if errorInserting != nil {
 					fmt.Printf("Error en: %+v", registro)
-				} else {
-					fmt.Println("Insercion correcta", i)
 				}
 				// Reset de los valores
 				values = "VALUES "

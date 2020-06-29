@@ -50,7 +50,6 @@ func New() *echo.Echo {
 		v1.GET("", api.IndexHandler)
 		v1.GET("/clima", api.ClimaHandler)
 		v1.GET("/simulacion", api.SimulacionHandler)
-		v1.POST("/simulacion", api.SimulacionPOSTHandler)
 	}
 	e.GET("/docs/*", echoSwagger.WrapHandler)
 	e.File("/modelo", "docs/modelo.html")

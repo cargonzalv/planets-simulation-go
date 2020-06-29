@@ -1,4 +1,4 @@
 cron:
 - description: "job diario que calcula condiciones de todos los días hasta 10 años"
-  url: /api/simular
-  schedule: every 24 hours
+  url: /api/simular?job=true
+  schedule: every 1 minutes
