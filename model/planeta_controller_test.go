@@ -158,3 +158,23 @@ func Test_avanzarDias(t *testing.T) {
 		})
 	}
 }
+
+func TestBuscarClimaDia(t *testing.T) {
+	type args struct {
+		dia int
+	}
+	tests := []struct {
+		name string
+		args args
+		want RespuestaClima
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := BuscarClimaDia(tt.args.dia); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("BuscarClimaDia() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
